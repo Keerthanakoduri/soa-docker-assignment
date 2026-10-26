@@ -1,0 +1,25 @@
+
+package com.klef.soa.docker.service;
+
+import java.util.List;
+
+import com.klef.soa.docker.entity.SchoolTransportRoute;
+
+public interface SchoolTransportRouteService {
+
+    SchoolTransportRoute addSchoolTransportRoute(
+            SchoolTransportRoute route);
+
+    // READ ALL
+    List<SchoolTransportRoute> displayAllSchoolTransportRoutes();
+
+    // READ BY ID
+    SchoolTransportRoute displaySchoolTransportRouteById(Long id);
+
+    // UPDATE
+    SchoolTransportRoute updateSchoolTransportRoute(
+            Long id, SchoolTransportRoute route);
+
+    // DELETE
+    String deleteSchoolTransportRoute(Long id);
+}

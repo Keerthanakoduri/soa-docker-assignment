@@ -1,0 +1,83 @@
+
+package com.klef.soa.docker.controller;
+
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.klef.soa.docker.entity.SchoolTransportRoute;
+import com.klef.soa.docker.service.SchoolTransportRouteService;
+
+@RestController
+@RequestMapping("/Schooltransportroute")
+public class SchoolTransportRouteController {
+
+    private final SchoolTransportRouteService routeService;
+
+    public SchoolTransportRouteController(
+            SchoolTransportRouteService routeService) {
+        this.routeService = routeService;
+    }
+
+    // HOME
+    @GetMapping("/")
+    public String home() {
+        return "School Transport Route Service Home Page";
+    }
+
+    // CREATE
+    @PostMapping("/addRoute")
+    @org.springframework.web.bind.annotation.ResponseStatus(
+            HttpStatus.CREATED)
+    public SchoolTransportRoute addRoute(
+            @Valid @RequestBody SchoolTransportRoute route) {
+        return routeService.addSchoolTransportRoute(route);
+    }
+
+    // READ ALL
+    @GetMapping("/displayall")
+    public List<SchoolTransportRoute> displayAll() {
+        return routeService.displayAllSchoolTransportRoutes();
+    }
+
+    // READ BY ID
+    @GetMapping("/displayById/{id}")
+    public SchoolTransportRoute displayById(
+            @PathVariable Long id) {
+        checkId(id);
+        return routeService.displaySchoolTransportRouteById(id);
+    }
+
+    @PutMapping("/updateRoute/{id}")
+    public SchoolTransportRoute updateRoute(
+            @PathVariable Long id,
+            @Valid @RequestBody SchoolTransportRoute route) {
+        checkId(id);
+        return routeService.updateSchoolTransportRoute(id, route);
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public String deleteById(@PathVariable Long id) {
+        checkId(id);
+        return routeService.deleteSchoolTransportRoute(id);
+    }
+
+    private void checkId(Long id) {
+        if (id == null || id <= 0) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "ID must be a positive number");
+        }
+    }
+}

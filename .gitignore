@@ -1,0 +1,23 @@
+
+# Java / Maven
+**/target/
+**/build/
+*.class
+
+# Node / React
+**/node_modules/
+**/dist/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+**/application-local.properties
+
+# IDE
+.vscode/
+.idea/
+
+# Operating system
+.DS_Store
+Thumbs.db

@@ -1,0 +1,83 @@
+
+
+package com.klef.soa.docker.service.impl;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.klef.soa.docker.entity.SchoolTransportRoute;
+import com.klef.soa.docker.repository.SchoolTransportRouteRepository;
+import com.klef.soa.docker.service.SchoolTransportRouteService;
+
+@Service
+public class SchoolTransportRouteServiceImpl
+        implements SchoolTransportRouteService {
+
+    private final SchoolTransportRouteRepository repository;
+
+    public SchoolTransportRouteServiceImpl(
+            SchoolTransportRouteRepository repository) {
+        this.repository = repository;
+    }
+
+    // CREATE
+    @Override
+    public SchoolTransportRoute addSchoolTransportRoute(
+            SchoolTransportRoute route) {
+
+        // ID is generated automatically by the database.
+        route.setId(null);
+        return repository.save(route);
+    }
+
+    // READ ALL
+    @Override
+    public List<SchoolTransportRoute> displayAllSchoolTransportRoutes() {
+        return repository.findAll();
+    }
+
+    // READ BY ID
+    @Override
+    public SchoolTransportRoute displaySchoolTransportRouteById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "School transport route not found with ID: " + id));
+    }
+
+    // UPDATE
+    @Override
+    public SchoolTransportRoute updateSchoolTransportRoute(
+            Long id, SchoolTransportRoute route) {
+
+        SchoolTransportRoute existing = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "School transport route not found with ID: " + id));
+
+        existing.setRouteName(route.getRouteName());
+        existing.setDriverName(route.getDriverName());
+        existing.setStudentCount(route.getStudentCount());
+        existing.setActive(route.isActive());
+
+        return repository.save(existing);
+    }
+
+    // DELETE
+    @Override
+    public String deleteSchoolTransportRoute(Long id) {
+
+        if (!repository.existsById(id)) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "School transport route not found with ID: " + id);
+        }
+
+        repository.deleteById(id);
+        return "School transport route deleted successfully";
+    }
+}
+
