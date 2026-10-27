@@ -1,0 +1,44 @@
+
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+
+      - name: Build and Push Backend
+        uses: docker/build-push-action@v7
+        with:
+          context: ./backend/CrudServiceProject
+          file: ./backend/CrudServiceProject/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker-backend-2400033253:latest
+
+      - name: Build and Push Frontend
+        uses: docker/build-push-action@v7
+        with:
+          context: ./frontend/SchoolTransportFrontend
+          file: ./frontend/SchoolTransportFrontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/docker-frontend-2400033253:latest
