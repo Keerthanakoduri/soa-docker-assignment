@@ -9,7 +9,7 @@ React + Vite frontend for the Spring Boot CRUD backend.
 4. Run `npm run dev`
 5. Open `http://localhost:5173`.
 
-Keep the Spring Boot backend running on `http://localhost:8081`.
+Keep the Spring Boot backend running on `http://localhost:8082
 Vite proxies `/Schooltransportroute` requests to the backend.
 
 Expected API endpoints:

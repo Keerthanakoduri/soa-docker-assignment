@@ -1,7 +1,7 @@
 spring.application.name=CrudServiceProject
 spring.application.name=CrudServiceProject
 
-server.port=8081
+server.port=8082
 
 spring.datasource.url=jdbc:postgresql://localhost:5433/exam_2400033253
 spring.datasource.username=postgres
